@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<head lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.1/united/bootstrap.min.css" rel="stylesheet" integrity="sha384-9nkB73MkhCaHgW6bdX2EbWnwXl8FUs1fTnR1UKUuic9Zqs/3u9VunCE/0hleKeUs" crossorigin="anonymous"></head>
+</head>
+</body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="/">Партия любителей пива</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Главная <span class="sr-only">(current)</span></a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Мероприятия</a>
+        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 39px, 0px); top: 0px; left: 0px; will-change: transform;">
+            <a class="dropdown-item" href="/newsobr">Новое мероприятие</a>
+            <a class="dropdown-item" href="/sobr">Список Мероприятий</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Бары</a>
+        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 39px, 0px); top: 0px; left: 0px; will-change: transform;">
+            <a class="dropdown-item" href="/newbar">Новый бар</a>
+            <a class="dropdown-item" href="/bars">Список баров</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Марки и сорта</a>
+        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 39px, 0px); top: 0px; left: 0px; will-change: transform;">
+            <a class="dropdown-item" href="/mark">Марки</a>
+            <a class="dropdown-item" href="/newsort">новый Сорт</a>
+            <a class="dropdown-item" href="/newmarka">Новая марка</a>
+            <a class="dropdown-item" href="/newpro">новый производитель</a>
+        </div>
+      </li>
+       <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Администратирование</a>
+        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 39px, 0px); top: 0px; left: 0px; will-change: transform;">
+            <a class="dropdown-item" href="/admm">Управление мероприятими</a>
+            <a class="dropdown-item" href="/admu">Управление пользователями</a>
+            <a class="dropdown-item" href="/admb">Управление бухгалтерией</a>
+        </div>
+      </li>
+
+    </ul>
+    <ul  class="nav navbar-nav ml-auto">
+        {% if username  %}
+            <li class="nav-item "><a class="nav-link" href="/logout">Выйти ({{ username }})</a></li>
+            {# <li class="nav-item "><a class="nav-link" href="/profile">Профиль</a></li> #}
+        {% else %}
+            <li class="nav-item"><a class="nav-link" href="/login">Войти</a></li>
+            <li class="nav-item"><a class="nav-link" href="/register">Зарегистрироваться</a></li>
+        {% endif %}
+    </ul>
+  </div>
+</nav>
+<div class="jumbotron" style="margin: 2%">
+    {% block content %}
+    {% endblock %}
+    {% block login %}
+    {% endblock %}
+</div>
+</body>
+</html>

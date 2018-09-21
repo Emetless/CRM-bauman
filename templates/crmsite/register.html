@@ -1,0 +1,12 @@
+{%   extends "crmsite/wrap.html" %}
+
+{% block login %}
+    <form action="/register/" method="post">
+        {% csrf_token %}
+        {{ form }}
+
+
+        <input class="btn btn-success" type="submit" value="registrarion">
+
+    </form>
+{% endblock %}

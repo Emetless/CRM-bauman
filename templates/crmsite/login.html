@@ -1,0 +1,14 @@
+{%   extends "crmsite/wrap.html" %}
+
+{% block login %}
+    <form action="/login/" method="post">
+        {% csrf_token %}
+        <input type="text" name="username" id="username">
+        <input type="password" name="password" id="password">
+        {% if login_error %}
+            <label class="error"> {{ login_error }}</label>
+        {% endif %}
+        <input class="btn btn-success" type="submit" value="LOGIN">
+
+    </form>
+{% endblock %}
