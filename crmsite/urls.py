@@ -8,5 +8,6 @@ urlpatterns = [
     path('register/', views.register, name='регистрация'),
     path('profile/', views.profile, name='профиль'),
     path('neworder/', views.createOrder, name='новая заявка'),
-    path('orders/', views.orders, name='заявки')
+    path('orders/', views.orders, name='заявки'),
+    path('orders/<int:id>', views.orders_detail, name='детали заявки')
 ]

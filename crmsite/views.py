@@ -1,5 +1,5 @@
 from django.contrib import auth
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
 
 from crmsite.forms import *
@@ -101,3 +101,18 @@ def createOrder(request):
         return render(request, 'crmsite/neworder.html', args)
     else:
         return render(request, 'crmsite/nonpermited.html')
+
+
+def orders(request):
+    user = auth.get_user(request)
+    if user.is_anonymous:
+        return render(request, 'crmsite/nonlogin.html')
+    elif user.garantAc == True and user.isAuthor == True:
+        posts = Orders.objects.filter(creator=user).order_by('createAt')
+        return render(request, 'orders.html', {'posts': posts})
+    else:
+        return render(request, 'crmsite/nonpermited.html')
+
+def orders_detail(request, id):
+    post = get_object_or_404(Orders, id=id)
+    return render(request, 'showorder.html', {'post': post})
