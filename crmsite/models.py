@@ -7,15 +7,15 @@ from django.utils import timezone
 
 
 class Worker(models.Model):
-    isAuthor = models.BooleanField(default=True)
-    isAdmin = models.BooleanField()
-    isModerator = models.BooleanField()
-    isAnalyst = models.BooleanField()
-    isConsult = models.BooleanField()
-    isChefEditor = models.BooleanField
-    isEditor = models.BooleanField
-    isChefTranslator = models.BooleanField
-    isTranslator = models.BooleanField
+    isAuthor = models.BooleanField(default=False)
+    isAdmin = models.BooleanField(default=False)
+    isModerator = models.BooleanField(default=False)
+    isAnalyst = models.BooleanField(default=False)
+    isConsult = models.BooleanField(default=False)
+    isChefEditor = models.BooleanField(default=False)
+    isEditor = models.BooleanField(default=False)
+    isChefTranslator = models.BooleanField(default=False)
+    isTranslator = models.BooleanField(default=False)
 
 class User(AbstractUser):
 
@@ -30,7 +30,7 @@ class User(AbstractUser):
     )
     position = models.CharField(max_length=10, choices=types)
     garantAc = models.BooleanField(default=False)
-    commentForAdmin = models.TextField
+    commentForAdmin = models.TextField(null=True)
 
 
     def publish(self):
@@ -45,19 +45,20 @@ class Orders(models.Model):
     nameJob = models.CharField(max_length=100)
     createAt = models.DateTimeField(default=timezone.now)
     updateAt = models.DateTimeField(default=timezone.now)
-    annotation = models.TextField
-    typeOfWork = models.TextField
-    keyWords = models.TextField
-    Comment = models.TextField
+    annotation = models.TextField(null=True)
+    typeOfWork = models.TextField(null=True)
+    keyWords = models.TextField(null=True)
+    Comment = models.TextField(null=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')
     moderator = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')
-    isAnalyst = models.BooleanField()
-    isConsult = models.BooleanField()
-    isTranslator = models.BooleanField()
-    isEditor = models.BooleanField()
+    isAnalyst = models.BooleanField(null=True)
+    isConsult = models.BooleanField(null=True)
+    isTranslator = models.BooleanField(null=True)
+    isEditor = models.BooleanField(null=True)
     Analyst = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')
     Consult = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')
     Translator = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')
     Editor = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')
     BlackFile = models.FileField(upload_to="BlackFile")
     LastFile = models.FileField(upload_to="LastFile")
+    aciveBy = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')

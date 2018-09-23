@@ -43,3 +43,18 @@ class UserSignUpForm(forms.Form):
     caf = forms.CharField(label="Кафедра")
     bio = forms.CharField(label="Биография")
     phoneNumber = forms.CharField(label="Номер телефона")
+    commentForAdmin = forms.CharField(label="Комментарии администратору")
+
+
+class NewOrderForm(forms.Form):
+    namejob = forms.CharField(label="Название работы")
+    annotation = forms.CharField(label="Аннотация")
+    typeOfWork = forms.CharField(label="тип работ")
+    keyWords = forms.CharField(label="Ключевые слова")
+    isAnalyst = forms.BooleanField(required=False, label="Требуется ли аналитик")
+    isConsult = forms.BooleanField(required=False, label="требуется ли консультант")
+    isTranslator = forms.BooleanField(required=False, label="требуется ли переводчик")
+    isEditor = forms.BooleanField(required=False, label="требуется ли корректор")
+    Comment = forms.CharField(label="Комментарий")
+    BlackFile = forms.FileField(label="черновой вариант документа")
+
