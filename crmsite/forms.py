@@ -48,11 +48,11 @@ class UserSignUpForm(forms.Form):
 
 
 class NewOrderForm(forms.Form):
-    namejob = forms.CharField(label="Название работы")
+    nameJob = forms.CharField(label="Название работы")
     annotation = forms.CharField(label="Аннотация")
     typeOfWork = forms.CharField(label="тип работ")
     keyWords = forms.CharField(label="Ключевые слова")
-    isAnalyst = forms.BooleanField(label="требуется ли fyfkbnbr")
+    isAnalyst = forms.BooleanField(label="требуется ли fyfkbnbr",)
     isConsult = forms.BooleanField(label="требуется ли консультант")
     isTranslator = forms.BooleanField(label="требуется ли переводчик")
     isEditor = forms.BooleanField(label="требуется ли корректор")

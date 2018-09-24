@@ -82,10 +82,11 @@ def createOrder(request):
     elif user.garantAc == True and Worker.objects.get(id=user.role_id).isAuthor == True:
         form = NewOrderForm(request.POST, request.FILES)
         if request.POST:
-            print(request.POST['isAnalyst'])
+            print(form.is_valid())
+            print(form)
             if form.is_valid():
                 newOrder = Orders.objects.create(
-                    nameJob=request.POST['namejob'],
+                    nameJob=request.POST['nameJob'],
                     annotation=request.POST['annotation'],
                     typeOfWork=request.POST['typeOfWork'],
                     keyWords=request.POST['keyWords'],
