@@ -44,7 +44,7 @@ class User(AbstractUser):
 class Orders(models.Model):
     nameJob = models.CharField(max_length=100)
     createAt = models.DateTimeField(default=timezone.now)
-    updateAt = models.DateTimeField(default=timezone.now)
+    updateAt = models.DateTimeField(default=timezone.now, null=True)
     annotation = models.TextField(null=True)
     keyWords = models.TextField(null=True)
     Comment = models.TextField(null=True)
@@ -59,5 +59,5 @@ class Orders(models.Model):
     Translator = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')
     Editor = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')
     BlackFile = models.FileField(upload_to="BlackFile")
-    LastFile = models.FileField(upload_to="LastFile")
+    LastFile = models.FileField(upload_to="LastFile", null=True)
     aciveBy = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')

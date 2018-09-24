@@ -38,7 +38,10 @@ def register(request):
         if request.POST['password'] != request.POST['password_confirmation']:
             return redirect('/register/')
         elif newuser_form.is_valid():
+            newRole = Worker.objects.create()
+            newRole.save()
             newuser = User.objects.create(username=request.POST['username'],
+                                          role_id=Worker.objects.get(id=newRole.id),
                                           email=request.POST['email'],
                                           first_name=request.POST['first_name'],
                                           last_name=request.POST['last_name'],
@@ -76,12 +79,11 @@ def createOrder(request):
     user = auth.get_user(request)
     if user.is_anonymous:
         return render(request, 'crmsite/nonlogin.html')
-    elif user.garantAc == True and user.isAuthor == True:
-        args = {}
-        args['form'] = NewOrderForm
+    elif user.garantAc == True and Worker.objects.get(id=user.role_id).isAuthor == True:
+        form = NewOrderForm(request.POST, request.FILES)
         if request.POST:
-            neworeder_form = NewOrderForm(request.POST, request.FILES)
-            if neworeder_form.is_valid():
+            print(request.POST['isAnalyst'])
+            if form.is_valid():
                 newOrder = Orders.objects.create(
                     nameJob=request.POST['namejob'],
                     annotation=request.POST['annotation'],
@@ -94,13 +96,18 @@ def createOrder(request):
                     Comment=request.POST['Comment'],
                     BlackFile=request.FILES['BlackFile']
                 )
+
                 newOrder.save()
-                return redirect('/orders')
+                return redirect('/')
+            else:
+                form = NewOrderForm()
+                return redirect('/profile')
         else:
-            args['form'] = NewOrderForm
-        return render(request, 'crmsite/neworder.html', args)
+            form = NewOrderForm()
+            return render(request, 'crmsite/neworder.html', {'form': form})
     else:
         return render(request, 'crmsite/nonpermited.html')
+
 
 
 def orders(request):

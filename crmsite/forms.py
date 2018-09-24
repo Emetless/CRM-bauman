@@ -38,7 +38,8 @@ class UserSignUpForm(forms.Form):
     password_confirmation = forms.CharField(label="Потверждение пароля",
                                             widget=forms.PasswordInput(attrs={'class': 'form-control',
                                                                               'placeholder': 'Подтверждение пароля'}))
-    position = forms.ChoiceField(choices=(('Студент', 'Студент'), ('Преподаватель', 'Преподаватель'), ('Научный сотрудник', 'Научный сотрудник')),
+    position = forms.ChoiceField(choices=(
+    ('Студент', 'Студент'), ('Преподаватель', 'Преподаватель'), ('Научный сотрудник', 'Научный сотрудник')),
                                  label="Должность")
     caf = forms.CharField(label="Кафедра")
     bio = forms.CharField(label="Биография")
@@ -51,10 +52,9 @@ class NewOrderForm(forms.Form):
     annotation = forms.CharField(label="Аннотация")
     typeOfWork = forms.CharField(label="тип работ")
     keyWords = forms.CharField(label="Ключевые слова")
-    isAnalyst = forms.BooleanField(required=False, label="Требуется ли аналитик")
-    isConsult = forms.BooleanField(required=False, label="требуется ли консультант")
-    isTranslator = forms.BooleanField(required=False, label="требуется ли переводчик")
-    isEditor = forms.BooleanField(required=False, label="требуется ли корректор")
+    isAnalyst = forms.BooleanField(label="требуется ли fyfkbnbr")
+    isConsult = forms.BooleanField(label="требуется ли консультант")
+    isTranslator = forms.BooleanField(label="требуется ли переводчик")
+    isEditor = forms.BooleanField(label="требуется ли корректор")
     Comment = forms.CharField(label="Комментарий")
     BlackFile = forms.FileField(label="черновой вариант документа")
-
