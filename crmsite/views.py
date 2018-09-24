@@ -41,7 +41,7 @@ def register(request):
             newRole = Worker.objects.create()
             newRole.save()
             newuser = User.objects.create(username=request.POST['username'],
-                                          role_id=Worker.objects.get(id=newRole.id),
+                                          role_id=newRole.id,
                                           email=request.POST['email'],
                                           first_name=request.POST['first_name'],
                                           last_name=request.POST['last_name'],

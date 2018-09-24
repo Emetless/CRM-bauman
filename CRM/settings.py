@@ -76,16 +76,13 @@ WSGI_APPLICATION = 'CRM.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': 'crm',
-    'USER' : 'postgres',
-    'PASSWORD' : 'eldarotasadum',
-    'HOST' : '127.0.0.1',
-'   PORT' : '5432',
-    }
-}
+    'default':
 
+                  {
+                      'ENGINE': 'django.db.backends.sqlite3',
+                      'NAME': 'mydatabase'
+                  }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
