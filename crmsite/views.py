@@ -80,7 +80,7 @@ def createOrder(request):
         args = {}
         args['form'] = NewOrderForm
         if request.POST:
-            neworeder_form = NewOrderForm(request.POST,  request.FILES)
+            neworeder_form = NewOrderForm(request.POST, request.FILES)
             if neworeder_form.is_valid():
                 newOrder = Orders.objects.create(
                     nameJob=request.POST['namejob'],
@@ -112,6 +112,7 @@ def orders(request):
         return render(request, 'orders.html', {'posts': posts})
     else:
         return render(request, 'crmsite/nonpermited.html')
+
 
 def orders_detail(request, id):
     post = get_object_or_404(Orders, id=id)

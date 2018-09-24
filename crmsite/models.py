@@ -46,7 +46,6 @@ class Orders(models.Model):
     createAt = models.DateTimeField(default=timezone.now)
     updateAt = models.DateTimeField(default=timezone.now)
     annotation = models.TextField(null=True)
-    typeOfWork = models.TextField(null=True)
     keyWords = models.TextField(null=True)
     Comment = models.TextField(null=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')
