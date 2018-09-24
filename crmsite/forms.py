@@ -1,6 +1,8 @@
 from django import forms
 from django.core.validators import RegexValidator
-from .models import User
+from django.forms import CheckboxInput
+
+from .models import *
 
 textValidator = RegexValidator(r"[а-яА-Яa-zA-Z]",
                                "Поле должно содержать символы")
@@ -50,17 +52,20 @@ class UserSignUpForm(forms.Form):
 class NewOrderForm(forms.Form):
     nameJob = forms.CharField(label="Название работы")
     annotation = forms.CharField(label="Аннотация")
-    typeOfWork = forms.CharField(label="Тип работ")
     keyWords = forms.CharField(label="Ключевые слова")
-    isAnalyst = forms.BooleanField(label="Требуется аналитик")
-    isConsult = forms.BooleanField(label="Требуется консультант")
-    isTranslator = forms.BooleanField(label="Требуется переводчик")
-    isEditor = forms.BooleanField(label="Требуется редактор")
+    TRUE_FALSE_CHOICES = (
+        (True, 'Yes'),
+        (False, 'No')
+    )
+    isAnalyst = forms.BooleanField(label="Требуется аналитик", required=True)
+    isConsult = forms.BooleanField(label="Требуется консультант", required=True)
+    isTranslator = forms.BooleanField(label="Требуется переводчик", required=True)
+    isEditor = forms.BooleanField(label="Требуется редактор", required=True)
     Comment = forms.CharField(label="Комментарий")
-    BlackFile = forms.FileField(label="черновой вариант документа")
+    #BlackFile = forms.FileField(label="черновой вариант документа")
 
 class AdminPanelForm(forms.Form):
-    isAuthor = forms.BooleanField(label="Автор", default=True)
+    isAuthor = forms.BooleanField(label="Автор")
     isChefModerator = forms.BooleanField(label="Шеф модератор")
     isModerator = forms.BooleanField(label="Модератор")
     isHead = forms.BooleanField(label="Руководитель")

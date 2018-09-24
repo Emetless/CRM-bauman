@@ -58,6 +58,6 @@ class Orders(models.Model):
     Consult = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')
     Translator = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')
     Editor = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')
-    BlackFile = models.FileField(upload_to="BlackFile")
+    BlackFile = models.FileField(upload_to="BlackFile", null=True)
     LastFile = models.FileField(upload_to="LastFile", null=True)
     aciveBy = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')

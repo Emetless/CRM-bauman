@@ -84,25 +84,34 @@ def createOrder(request):
         if request.POST:
             print(form.is_valid())
             print(form)
+            print(request.POST['isConsult'])
+
             if form.is_valid():
+                if request.POST['isAnalyst'] == 'on':
+                    IsAnalyst=True
+                if request.POST['isConsult'] == 'on':
+                    IsConsult = True
+                if request.POST['isTranslator'] == 'on':
+                    IsTranslator = True
+                if request.POST['isEditor'] == 'on':
+                    IsEditor = True
                 newOrder = Orders.objects.create(
                     nameJob=request.POST['nameJob'],
                     annotation=request.POST['annotation'],
-                    typeOfWork=request.POST['typeOfWork'],
-                    keyWords=request.POST['keyWords'],
-                    isAnalyst=request.POST['isAnalyst'],
-                    isConsult=request.POST['isConsult'],
-                    isTranslator=request.POST['isTranslator'],
-                    isEditor=request.POST['isEditor'],
+                    keyWords= request.POST['keyWords'],
+                    isAnalyst= IsAnalyst,
+                    isConsult=IsConsult,
+                    isTranslator=IsTranslator,
+                    isEditor=IsEditor,
+                    creator=user,
                     Comment=request.POST['Comment'],
-                    BlackFile=request.FILES['BlackFile']
+                    #BlackFile=request.FILES['BlackFile']
                 )
 
                 newOrder.save()
                 return redirect('/')
             else:
-                form = NewOrderForm()
-                return redirect('/profile')
+                return render(request, 'crmsite/neworder.html', {'form': form})
         else:
             form = NewOrderForm()
             return render(request, 'crmsite/neworder.html', {'form': form})
@@ -115,13 +124,13 @@ def orders(request):
     user = auth.get_user(request)
     if user.is_anonymous:
         return render(request, 'crmsite/nonlogin.html')
-    elif user.garantAc == True and user.isAuthor == True:
+    elif user.garantAc == True and Worker.objects.get(id=user.role_id).isAuthor == True:
         posts = Orders.objects.filter(creator=user).order_by('createAt')
-        return render(request, 'orders.html', {'posts': posts})
+        return render(request, 'crmsite/orders.html', {'posts': posts})
     else:
         return render(request, 'crmsite/nonpermited.html')
 
 
 def orders_detail(request, id):
     post = get_object_or_404(Orders, id=id)
-    return render(request, 'showorder.html', {'post': post})
+    return render(request, 'crmsite/showorder.html', {'post': post})
