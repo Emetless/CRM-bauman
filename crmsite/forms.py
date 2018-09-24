@@ -42,11 +42,11 @@ class UserSignUpForm(forms.Form):
                                                                               'placeholder': 'Подтверждение пароля'}))
     position = forms.ChoiceField(choices=(
         ('Студент', 'Студент'), ('Преподаватель', 'Преподаватель'), ('Научный сотрудник', 'Научный сотрудник')),
-        label="Должность")
-    caf = forms.CharField(label="Кафедра")
-    bio = forms.CharField(label="Биография")
-    phoneNumber = forms.CharField(label="Номер телефона")
-    commentForAdmin = forms.CharField(label="Комментарии администратору")
+        label="Должность ")
+    caf = forms.CharField(label="Кафедра ")
+    bio = forms.CharField(label="Биография ")
+    phoneNumber = forms.CharField(label="Номер телефона ")
+    commentForAdmin = forms.CharField(label="Комментарии администратору ")
 
 
 class NewOrderForm(forms.Form):
@@ -71,7 +71,7 @@ class AdminPanelForm(forms.Form):
     isModerator = forms.BooleanField(label="Модератор")
     isHead = forms.BooleanField(label="Руководитель")
     isAdmin = forms.BooleanField(label="Администратор")
-    isDirector = forms.BooleanField(label="Директор")
+    isChefEditor = forms.BooleanField(label="Директор")
     isAnalyst = forms.BooleanField(label="Аналитик")
     isConsult = forms.BooleanField(label="Консультант")
     isTranslator = forms.BooleanField(label="Переводчик")

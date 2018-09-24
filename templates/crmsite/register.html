@@ -1,12 +1,11 @@
-{%   extends "crmsite/wrap.html" %}
+{% extends "crmsite/wrap.html" %}
 
 {% block login %}
     <form action="/register/" method="post">
         {% csrf_token %}
-        {{ form }}
+        {{ form.as_p}}
 
-
-        <input class="btn btn-success" type="submit" value="registrarion">
+        <input class="btn btn-primary btn-lg btn-block" type="submit" value="Регистрация">
 
     </form>
 {% endblock %}
