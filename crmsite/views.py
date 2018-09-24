@@ -80,7 +80,7 @@ def createOrder(request):
     if user.is_anonymous:
         return render(request, 'crmsite/nonlogin.html')
     elif user.garantAc == True and Worker.objects.get(id=user.role_id).isAuthor == True:
-        form = NewOrderForm(request.POST, request.FILES)
+        form = NewOrderForm(request.POST, request.FILES or None)
         if request.POST:
             print(form.is_valid())
             print(form)
@@ -105,7 +105,7 @@ def createOrder(request):
                     isEditor=IsEditor,
                     creator=user,
                     Comment=request.POST['Comment'],
-                    #BlackFile=request.FILES['BlackFile']
+                    BlackFile=request.FILES['BlackFile']
                 )
 
                 newOrder.save()

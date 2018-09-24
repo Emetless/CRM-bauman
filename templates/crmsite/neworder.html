@@ -1,6 +1,6 @@
 {%   extends "crmsite/wrap.html" %}
 {% block content %}
-    <form method="POST" class="post-form">{% csrf_token %}
+    <form method="POST" class="post-form"  enctype='multipart/form-data'>{% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="save btn btn-default" value="neworder">Save</button>
     </form>

@@ -41,8 +41,8 @@ class UserSignUpForm(forms.Form):
                                             widget=forms.PasswordInput(attrs={'class': 'form-control',
                                                                               'placeholder': 'Подтверждение пароля'}))
     position = forms.ChoiceField(choices=(
-    ('Студент', 'Студент'), ('Преподаватель', 'Преподаватель'), ('Научный сотрудник', 'Научный сотрудник')),
-                                 label="Должность")
+        ('Студент', 'Студент'), ('Преподаватель', 'Преподаватель'), ('Научный сотрудник', 'Научный сотрудник')),
+        label="Должность")
     caf = forms.CharField(label="Кафедра")
     bio = forms.CharField(label="Биография")
     phoneNumber = forms.CharField(label="Номер телефона")
@@ -62,7 +62,8 @@ class NewOrderForm(forms.Form):
     isTranslator = forms.BooleanField(label="Требуется переводчик", required=True)
     isEditor = forms.BooleanField(label="Требуется редактор", required=True)
     Comment = forms.CharField(label="Комментарий")
-    #BlackFile = forms.FileField(label="черновой вариант документа")
+    BlackFile = forms.FileField(label="черновой вариант документа")
+
 
 class AdminPanelForm(forms.Form):
     isAuthor = forms.BooleanField(label="Автор")
@@ -70,7 +71,7 @@ class AdminPanelForm(forms.Form):
     isModerator = forms.BooleanField(label="Модератор")
     isHead = forms.BooleanField(label="Руководитель")
     isAdmin = forms.BooleanField(label="Администратор")
-    isDirector= forms.BooleanField(label="Директор")
+    isDirector = forms.BooleanField(label="Директор")
     isAnalyst = forms.BooleanField(label="Аналитик")
     isConsult = forms.BooleanField(label="Консультант")
     isTranslator = forms.BooleanField(label="Переводчик")
