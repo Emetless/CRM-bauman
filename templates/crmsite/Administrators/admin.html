@@ -1,67 +1,49 @@
-{%   extends "crmsite/wrap.html" %}
+{% extends "crmsite/wrap.html" %}
 {% block content %}
 
-    <table>
-        <tr class="table-active">
-            <td>
-                <h1>Имя Фамилия</h1>
-            </td>
-            <td>
-                Никнейм
-            </td>
-            <td>
-                E-mail
-            </td>
-            <td>
-                Номер телефона
-            </td>
-        <td>
-                Дата регистрации
-            </td>
-        <td>
-                Должность
-            </td>
-        <td>
-                Кафедра
-            </td>
-        <td>
-                Комментарий для администратора
-            </td>
-        <td>
-                Подтвержден ли аккаунт
-            </td>
+    <table class="table">
+        <tr class="table-active" >
+            <td >Имя Фамилия</td>
+            <td>Никнейм</td>
+            <td>E-mail</td>
+            <td>Номер телефона</td>
+            <td>Дата регистрации</td>
+            <td>Должность</td>
+            <td>Кафедра</td>
+            <td>Комментарий для администратора</td>
+            <td>Подтвержден ли аккаунт</td>
         </tr>
         {% for post in posts %}
-        <tr>
-            <td>
-                <h1><a href="{%url 'Панель управления пользователем' ids=post.id%}">{{ post.first_name }} {{ post.last_name }}</a></h1>
-            </td>
-            <td>
-                {{ post.username }}
-            </td>
-            <td>
-                {{ post.email }}
-            </td>
-            <td>
-                {{ post.phoneNumber }}
-            </td>
-        <td>
-                {{ post.date_joined }}
-            </td>
-        <td>
-                {{ post.position }}
-            </td>
-        <td>
-                {{ post.caf }}
-            </td>
-        <td>
-                {{ post.commentForAdmin }}
-            </td>
-        <td>
-                {{ post.garantAc }}
-            </td>
-        </tr>
-    {% endfor %}
+            <tr >
+                <td>
+                    <a href="{% url 'Панель управления пользователем' ids=post.id %}">{{ post.first_name }} {{ post.last_name }}</a>
+                </td>
+                <td>
+                    {{ post.username }}
+                </td>
+                <td>
+                    {{ post.email }}
+                </td>
+                <td>
+                    {{ post.phoneNumber }}
+                </td>
+                <td>
+                    {{ post.date_joined }}
+                </td>
+                <td>
+                    {{ post.position }}
+                </td>
+                <td>
+                    {{ post.caf }}
+                </td>
+                <td>
+                    {{ post.commentForAdmin }}
+                </td>
+                <td>
+                    {{ post.garantAc }}
+                </td>
+            </tr>
+        {% endfor %}
     </table>
 
 
