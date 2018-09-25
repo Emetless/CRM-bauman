@@ -73,7 +73,17 @@ WSGI_APPLICATION = 'CRM.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 
-DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': 'mydatabase'}}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    'NAME': 'crm',
+    'USER' : 'postgres',
+    'PASSWORD' : 'eldarotasadum',
+    'HOST' : '127.0.0.1',
+'   PORT' : '5432',
+    }
+
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -118,6 +128,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 AUTH_USER_MODEL = 'crmsite.User'
 
+PUBLIC_DOWNLOADS_URL_BASE = '/media/'
 FILE_UPLOAD_HANDLERS = [
     'django.core.files.uploadhandler.MemoryFileUploadHandler',
     'django.core.files.uploadhandler.TemporaryFileUploadHandler',

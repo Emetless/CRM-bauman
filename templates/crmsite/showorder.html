@@ -3,7 +3,7 @@
 
 
     <div>
-        <h1><a href="{%url 'Детали заявки' id=post.id%}">{{ post.nameJob }}</a></h1>
+        <h1><a href="{%url 'детали заявки' ids=post.id%}">{{ post.nameJob }}</a></h1>
         <p>Создано {{ post.createAt }}</p>
         <p>{{ post.updateAt }}</p>
         <p>{{ post.creator }}</p>
@@ -11,7 +11,7 @@
         <p>{{ post.typeOfWork }}</p>
         <p>{{ post.keyWords }}</p>
         <p>{{ post.Comment }}</p>
-        <p><a href="/">Скачать файл</a></p>
+        <p><a href="{%url 'загрузка' ids=post.id%}">Скачать файл</a></p>
     </div>
 {% endblock %}
 

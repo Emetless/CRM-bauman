@@ -13,5 +13,6 @@ urlpatterns = [
     path('admining/', views.adminPanel, name='Панель управления пользователями'),
     path('admining/<int:ids>', views.user_detail_admin, name='Панель управления пользователем'),
     path('moderating/', views.moderator_panel, name='Панель управления заявками'),
-    path('moderating/<int:ids>', views.moderatorOrderEdit, name='Управление заявкой')
+    path('moderating/<int:ids>', views.moderatorOrderEdit, name='Управление заявкой'),
+    path('download/<int:ids>', views.download, name='загрузка')
 ]

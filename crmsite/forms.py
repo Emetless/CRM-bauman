@@ -108,3 +108,7 @@ class ModeratorPanelForm(forms.Form):
         ('Завершено', 'Завершено')
     )
     Condirion = forms.ChoiceField(label="Состояние работы", choices=types)
+
+class EditWorkerForm(forms.Form):
+    Comment = forms.CharField(label="Комментарий", required=False)
+    LastFile = forms.FileField(label="Последний вариант документа", required=False)
