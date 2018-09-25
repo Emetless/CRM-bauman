@@ -4,8 +4,6 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 
-
-
 class Worker(models.Model):
     isAuthor = models.BooleanField(default=False)
     isAdmin = models.BooleanField(default=False)
@@ -17,8 +15,8 @@ class Worker(models.Model):
     isChefTranslator = models.BooleanField(default=False)
     isTranslator = models.BooleanField(default=False)
 
-class User(AbstractUser):
 
+class User(AbstractUser):
     bio = models.TextField(max_length=500, blank=True)
     phoneNumber = models.CharField(max_length=11)
     role = models.ForeignKey(Worker, on_delete=models.CASCADE, null=True)
@@ -28,10 +26,9 @@ class User(AbstractUser):
         ('Преподаватель', 'Преподаватель'),
         ('Научный сотрудник', 'Научный сотрудник')
     )
-    position = models.CharField(max_length=10, choices=types)
+    position = models.CharField(max_length=50, choices=types)
     garantAc = models.BooleanField(default=False)
     commentForAdmin = models.TextField(null=True)
-
 
     def publish(self):
         self.adddate = timezone.now()
@@ -48,16 +45,28 @@ class Orders(models.Model):
     annotation = models.TextField(null=True)
     keyWords = models.TextField(null=True)
     Comment = models.TextField(null=True)
-    creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')
-    moderator = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='+')
+    moderator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='+')
     isAnalyst = models.BooleanField(null=True)
     isConsult = models.BooleanField(null=True)
     isTranslator = models.BooleanField(null=True)
     isEditor = models.BooleanField(null=True)
-    Analyst = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')
-    Consult = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')
-    Translator = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')
-    Editor = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')
+    Analyst = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='+')
+    Consult = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='+')
+    Translator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='+')
+    Editor = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='+')
     BlackFile = models.FileField(upload_to="BlackFile/", null=True)
     LastFile = models.FileField(upload_to="LastFile", null=True)
-    aciveBy = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='+')
+    aciveBy = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='+')
+    types = (
+        ('ПРИНЯТО В РАБОТУ', 'ПРИНЯТО В РАБОТУ'),
+        ('ОТКЛОНЕНО', 'ОТКЛОНЕНО'),
+        ('ПЕРЕДАНО КОНСУЛЬТАНТАМ', 'ПЕРЕДАНО КОНСУЛЬТАНТАМ'),
+        ('ВОЗВРАЩЕНО АДМИНИСТРАТОРУ СИСТЕМЫ', 'ВОЗВРАЩЕНО АДМИНИСТРАТОРУ СИСТЕМЫ'),
+        ('ПЕРЕДАНО РЕДАКТОРУ', 'ПЕРЕДАНО РЕДАКТОРУ'),
+        ('ПЕРЕДАНО ПЕРЕВОДЧИКУ', 'ПЕРЕДАНО ПЕРЕВОДЧИКУ'),
+        ('ОТПРАВЛЕНО В ЖУРНАЛ', 'ОТПРАВЛЕНО В ЖУРНАЛ'),
+        ('ПОЛУЧЕНО ИЗ ЖУРНАЛА НА ДОРАБОТКУ', 'ПОЛУЧЕНО ИЗ ЖУРНАЛА НА ДОРАБОТКУ'),
+        ('В рассмотрении у администратора', 'В рассмотрении у администратора'),
+    )
+    Condirion = models.TextField(null=True, choices=types)
