@@ -77,3 +77,19 @@ class AdminPanelForm(forms.Form):
     isTranslator = forms.BooleanField(label="Переводчик")
     isChefTranslator = forms.BooleanField(label="Шеф переводчик")
     isEditor = forms.BooleanField(label="Требуется редактор")
+
+class ModeratorPanelForm(forms.Form):
+    nameJob = forms.CharField(label="Название работы", required=False)
+    annotation = forms.CharField(label="Аннотация", required=False)
+    keyWords = forms.CharField(label="Ключевые слова", required=False)
+    TRUE_FALSE_CHOICES = (
+        (True, 'Yes'),
+        (False, 'No')
+    )
+    isAnalyst = forms.BooleanField(label="Требуется аналитик", required=False)
+    isConsult = forms.BooleanField(label="Требуется консультант", required=False)
+    isTranslator = forms.BooleanField(label="Требуется переводчик", required=False)
+    isEditor = forms.BooleanField(label="Требуется редактор", required=False)
+    Comment = forms.CharField(label="Комментарий", required=False)
+    BlackFile = forms.FileField(label="черновой вариант документа", required=False)
+    LastFile = forms.FileField(label="Последний вариант документа", required=False)
