@@ -71,7 +71,8 @@ def profile(request):
     if user.is_anonymous:
         return render(request, 'crmsite/nonlogin.html')
     else:
-        return render(request, 'crmsite/profile.html', {'user': user, 'username': auth.get_user(request), 'username': auth.get_user(request)})
+        return render(request, 'crmsite/profile.html',
+                      {'user': user, 'username': auth.get_user(request), 'username': auth.get_user(request)})
 
 
 def logout(request):
@@ -112,12 +113,12 @@ def createOrder(request):
                 newOrder.save()
                 return redirect('/')
             else:
-                return render(request, 'crmsite/neworder.html', {'form': form,'username': auth.get_user(request)})
+                return render(request, 'crmsite/neworder.html', {'form': form, 'username': auth.get_user(request)})
         else:
             form = NewOrderForm()
-            return render(request, 'crmsite/neworder.html', {'form': form,'username': auth.get_user(request)})
+            return render(request, 'crmsite/neworder.html', {'form': form, 'username': auth.get_user(request)})
     else:
-        return render(request, 'crmsite/nonpermited.html',{'username': auth.get_user(request)})
+        return render(request, 'crmsite/nonpermited.html', {'username': auth.get_user(request)})
 
 
 def orders(request):
@@ -128,7 +129,7 @@ def orders(request):
         posts = Orders.objects.filter(creator=user).order_by('createAt')
         return render(request, 'crmsite/orders.html', {'posts': posts, 'username': auth.get_user(request)})
     else:
-        return render(request, 'crmsite/nonpermited.html',{'username': auth.get_user(request)})
+        return render(request, 'crmsite/nonpermited.html', {'username': auth.get_user(request)})
 
 
 def orders_detail(request, ids):
@@ -142,9 +143,10 @@ def adminPanel(request):
         return render(request, 'crmsite/nonlogin.html')
     elif user.garantAc == True and Worker.objects.get(id=user.role_id).isAdmin == True:
         posts = User.objects.all().order_by('date_joined')
-        return render(request, 'crmsite/Administrators/admin.html', {'posts': posts, 'username': auth.get_user(request)})
+        return render(request, 'crmsite/Administrators/admin.html',
+                      {'posts': posts, 'username': auth.get_user(request)})
     else:
-        return render(request, 'crmsite/nonpermited.html',{'username': auth.get_user(request)})
+        return render(request, 'crmsite/nonpermited.html', {'username': auth.get_user(request)})
 
 
 def user_detail_admin(request, ids):
@@ -195,9 +197,10 @@ def user_detail_admin(request, ids):
             post.save()
             return redirect('admining/')
         else:
-            return render(request, 'crmsite/Administrators/useredit.html', {'post': post, 'form': form,'username': auth.get_user(request)})
+            return render(request, 'crmsite/Administrators/useredit.html',
+                          {'post': post, 'form': form, 'username': auth.get_user(request)})
     else:
-        return render(request, 'crmsite/nonpermited.html',{'username': auth.get_user(request)})
+        return render(request, 'crmsite/nonpermited.html', {'username': auth.get_user(request)})
 
 
 def moderator_panel(request):
@@ -208,9 +211,10 @@ def moderator_panel(request):
             id=user.role_id).isModerator:
         posts = Orders.objects.exclude(Condirion='ОТКЛОНЕНО').exclude(Condirion='Завершено').order_by('createAt')
         finished = Orders.objects.filter(Condirion=['ОТКЛОНЕНО', 'Завершено']).order_by('Condirion')
-        return render(request, 'crmsite/Administrators/moderator.html', {'posts': posts, 'finished': finished,'username': auth.get_user(request)})
+        return render(request, 'crmsite/Administrators/moderator.html',
+                      {'posts': posts, 'finished': finished, 'username': auth.get_user(request)})
     else:
-        return render(request, 'crmsite/nonpermited.html',{'username': auth.get_user(request)})
+        return render(request, 'crmsite/nonpermited.html', {'username': auth.get_user(request)})
 
 
 def moderatorOrderEdit(request, ids):
@@ -220,6 +224,8 @@ def moderatorOrderEdit(request, ids):
     elif user.garantAc == True and Worker.objects.get(id=user.role_id).isAdmin == True or Worker.objects.get(
             id=user.role_id).isModerator:
         post = Orders.objects.get(id=ids)
+        post.moderator = user
+        post.save()
         form = ModeratorPanelForm(
             initial={'nameJob': post.nameJob, 'isAnalyst': post.isAnalyst, 'isConsult': post.isConsult,
                      'isTranslator': post.isTranslator, 'isEditor': post.isEditor,
@@ -248,16 +254,46 @@ def moderatorOrderEdit(request, ids):
 
             return redirect('moderating/')
         else:
-            return render(request, 'crmsite/Administrators/moderatorOrderEdit.html', {'post': post, 'form': form, 'username': auth.get_user(request)})
+            return render(request, 'crmsite/Administrators/moderatorOrderEdit.html',
+                          {'post': post, 'form': form, 'username': auth.get_user(request)})
     else:
-        return render(request, 'crmsite/nonpermited.html',{'username': auth.get_user(request)})
+        return render(request, 'crmsite/nonpermited.html', {'username': auth.get_user(request)})
+
 
 def download(request, ids):
-        path = Orders.objects.get(id=ids).BlackFile.path
-        file_path = os.path.join(settings.MEDIA_ROOT, path)
-        if os.path.exists(file_path):
-            with open(file_path, 'rb') as fh:
-                response = HttpResponse(fh.read(), content_type="")
-                response['Content-Disposition'] = 'inline; filename=' + Orders.objects.get(id=ids).nameJob
-                return response
-        raise Http404
+    path = Orders.objects.get(id=ids).BlackFile.path
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="")
+            response['Content-Disposition'] = 'inline; filename=' + Orders.objects.get(id=ids).nameJob
+            return response
+    raise Http404
+
+
+def show(request):
+    user = auth.get_user(request)
+    if user.is_anonymous:
+        return render(request, 'crmsite/nonlogin.html')
+    elif user.garantAc == True and Worker.objects.get(id=user.role_id).isTranslator == True:
+        posts = Orders.objects.filter(creator=user).order_by('createAt')
+        return render(request, 'crmsite/orders.html', {'posts': posts, 'username': auth.get_user(request)})
+    else:
+        return render(request, 'crmsite/nonpermited.html', {'username': auth.get_user(request)})
+
+
+def showEdit(request, ids):
+    user = auth.get_user(request)
+    if user.is_anonymous:
+        return render(request, 'crmsite/nonlogin.html')
+    elif user.garantAc == True and Worker.objects.get(id=user.role_id).isTranslator == True:
+        post = get_object_or_404(Orders, id=ids, isTranslator=True)
+        form = EditWorkerForm(request.POST, request.FILES or None)
+        if request.post:
+            post.save(aciveBy=request.POST['aciveBy'],
+                      Comment=request.POST['Comment'],
+                      LastFile=request.FILES['LastFile'])
+            return redirect('translator/')
+        return render(request, 'crmsite/showorder.html', {'post': post})
+    else:
+        return render(request, 'crmsite/nonpermited.html', {'username': auth.get_user(request)})
