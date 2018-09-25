@@ -66,8 +66,8 @@ class NewOrderForm(forms.Form):
 
 
 class AdminPanelForm(forms.Form):
+    garantAc = forms.BooleanField(label="Подтверждение аккаунта")
     isAuthor = forms.BooleanField(label="Автор")
-    isChefModerator = forms.BooleanField(label="Шеф модератор")
     isModerator = forms.BooleanField(label="Модератор")
     isHead = forms.BooleanField(label="Руководитель")
     isAdmin = forms.BooleanField(label="Администратор")
