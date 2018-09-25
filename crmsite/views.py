@@ -207,3 +207,20 @@ def moderator_panel(request):
         return render(request, 'crmsite/Administrators/moderator.html', {'posts': posts, 'finished': finished})
     else:
         return render(request, 'crmsite/nonpermited.html')
+
+
+def moderatorOrderEdit(request, ids):
+    user = auth.get_user(request)
+    if user.is_anonymous:
+        return render(request, 'crmsite/nonlogin.html')
+    elif user.garantAc == True and Worker.objects.get(id=user.role_id).isAdmin == True or Worker.objects.get(
+            id=user.role_id).isModerator:
+        post = get_object_or_404(Orders, id=ids)
+        form = ModeratorPanelForm(
+            initial={'nameJob': post.nameJob, 'isAnalyst': post.isAnalyst, 'isConsult': post.isConsult,
+                     'isTranslator': post.isTranslator, 'isEditor': post.isEditor,
+                     'BlackFile': post.BlackFile, 'LastFile': post.LastFile,
+                     'Comment': post.Comment, 'annotation': post.annotation,'keyWords': post.keyWords})
+        return render(request, 'crmsite/Administrators/moderatorOrderEdit.html', {'post': post, 'form': form})
+    else:
+        return render(request, 'crmsite/nonpermited.html')

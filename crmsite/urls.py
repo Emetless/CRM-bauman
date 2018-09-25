@@ -12,5 +12,6 @@ urlpatterns = [
     path('orders/<int:ids>', views.orders_detail, name='детали заявки'),
     path('admining/', views.adminPanel, name='Панель управления пользователями'),
     path('admining/<int:ids>', views.user_detail_admin, name='Панель управления пользователем'),
-    path('moderatoring/', views.moderator_panel, name='Панель управления заявками')
+    path('moderating/', views.moderator_panel, name='Панель управления заявками'),
+    path('moderating/<int:ids>', views.moderatorOrderEdit, name='Управление заявкой')
 ]
