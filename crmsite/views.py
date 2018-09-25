@@ -101,7 +101,8 @@ def createOrder(request):
                     isEditor=IsEditor,
                     creator=user,
                     Comment=request.POST['Comment'],
-                    BlackFile=request.FILES['BlackFile']
+                    BlackFile=request.FILES['BlackFile'],
+                    Condirion='ПРИНЯТО В РАБОТУ'
                 )
 
                 newOrder.save()
@@ -144,7 +145,6 @@ def adminPanel(request):
 
 def user_detail_admin(request, ids):
     user = auth.get_user(request)
-
     if user.is_anonymous:
         return render(request, 'crmsite/nonlogin.html')
     elif user.garantAc == True and Worker.objects.get(id=user.role_id).isAdmin == True:
@@ -192,5 +192,18 @@ def user_detail_admin(request, ids):
             return redirect('admining/')
         else:
             return render(request, 'crmsite/Administrators/useredit.html', {'post': post, 'form': form})
+    else:
+        return render(request, 'crmsite/nonpermited.html')
+
+
+def moderator_panel(request):
+    user = auth.get_user(request)
+    if user.is_anonymous:
+        return render(request, 'crmsite/nonlogin.html')
+    elif user.garantAc == True and Worker.objects.get(id=user.role_id).isAdmin == True or Worker.objects.get(
+            id=user.role_id).isModerator:
+        posts = Orders.objects.exclude(Condirion='ОТКЛОНЕНО').exclude(Condirion='Завершено').order_by('createAt')
+        finished = Orders.objects.filter(Condirion=['ОТКЛОНЕНО', 'Завершено']).order_by('Condirion')
+        return render(request, 'crmsite/Administrators/moderator.html', {'posts': posts, 'finished': finished})
     else:
         return render(request, 'crmsite/nonpermited.html')

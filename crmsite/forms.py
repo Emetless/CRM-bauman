@@ -62,7 +62,7 @@ class NewOrderForm(forms.Form):
     isTranslator = forms.BooleanField(label="Требуется переводчик")
     isEditor = forms.BooleanField(label="Требуется редактор")
     Comment = forms.CharField(label="Комментарий")
-    BlackFile = forms.FileField(label="черновой вариант документа")
+    BlackFile = forms.FileField(label="черновой вариант документа",required=False)
 
 
 class AdminPanelForm(forms.Form):
