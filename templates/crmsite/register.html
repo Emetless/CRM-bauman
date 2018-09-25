@@ -1,11 +1,14 @@
 {% extends "crmsite/wrap.html" %}
 
 {% block login %}
-    <form action="/register/" method="post">
-        {% csrf_token %}
-        {{ form.as_p}}
+    <div class="col-md-6 col-md-offset-3" style="background-color: rgb(233,236,239); padding: 2%">
+        <form action="/register/" method="post">
+            <h3 class="text-center">Регистрация</h3>
+            {% csrf_token %}
+            {{ form.as_p }}
 
-        <input class="btn btn-primary btn-lg btn-block" type="submit" value="Регистрация">
+            <input class="btn btn-primary btn-lg btn-block" type="submit" value="Регистрация">
 
-    </form>
+        </form>
+    </div>
 {% endblock %}

@@ -24,7 +24,7 @@ def login(request):
             auth.login(request, user)
             return redirect('/')
         else:
-            args['login_error'] = "not found"
+            args['login_error'] = "Пользователь не найден!"
             return render(request, 'crmsite/login.html', args)
     else:
         return render(request, 'crmsite/login.html', args)
