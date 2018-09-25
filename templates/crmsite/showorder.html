@@ -1,17 +1,36 @@
-{%   extends "crmsite/wrap.html" %}
+{% extends "crmsite/wrap.html" %}
 {% block content %}
 
 
     <div>
-        <h1><a href="{%url 'детали заявки' ids=post.id%}">{{ post.nameJob }}</a></h1>
-        <p>Создано {{ post.createAt }}</p>
-        <p>{{ post.updateAt }}</p>
-        <p>{{ post.creator }}</p>
-        <p>{{ post.annotation }}</p>
-        <p>{{ post.typeOfWork }}</p>
-        <p>{{ post.keyWords }}</p>
-        <p>{{ post.Comment }}</p>
-        <p><a href="{%url 'загрузка' ids=post.id%}">Скачать файл</a></p>
+        <h1>Навзание статьи: "{{ post.nameJob }}"</h1>
+        <p>Создано: {{ post.createAt }}</p>
+        <p>Обновлено: {{ post.updateAt }}</p>
+        <p>Автор: {{ post.creator.first_name }} {{ post.creator.last_name }}</p>
+        <p>Аннотации: {{ post.annotation }}</p>
+        <p>Нужен консультант: {% if  post.isConsult %}
+            <input type="radio" checked>
+        {% else %}
+            <input type="radio"> }}
+        {% endif %}</p>
+        <p>Нужен переводчик: {% if post.isTranslator %}
+            <input type="radio" checked>
+        {% else %}
+            <input type="radio"> }}
+        {% endif %}</p>
+        <p>Нужен аналитик: {% if post.isAnalyst %}
+            <input type="radio" checked>
+        {% else %}
+            <input type="radio"> }}
+        {% endif %}</p>
+        <p>Нужен редактор: {% if post.isEditor %}
+            <input type="radio" checked>
+        {% else %}
+            <input type="radio"> }}
+        {% endif %}</p>
+        <p>Ключевые слова: {{ post.keyWords }}</p>
+        <p>Комментарий: {{ post.Comment }}</p>
+        <p class="btn btn-light"><a href="{% url 'загрузка' ids=post.id %}">Скачать файл</a></p>
     </div>
 {% endblock %}
 

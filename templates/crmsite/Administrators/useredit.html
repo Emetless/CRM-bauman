@@ -2,8 +2,11 @@
 {% block content %}
 
         {{ posts }}
+    <h2>Пользователь: {{ post.first_name }} {{ post.last_name }}</h2>
+    <br/>
 
     <form method="POST" class="post-form">{% csrf_token %}
+
         {{ form.as_p }}
         <button type="submit" class="save btn btn-default">Сохранить</button>
     </form>

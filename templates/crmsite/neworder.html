@@ -1,8 +1,9 @@
-{%   extends "crmsite/wrap.html" %}
+{% extends "crmsite/wrap.html" %}
 {% block content %}
-    <form method="POST" class="post-form"  enctype='multipart/form-data'>{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-default" value="neworder">Сохранить</button>
-    </form>
-
+    <div class="col-md-6 col-md-offset-3" style="background-color: rgb(233,236,239); padding: 2%">
+        <form method="POST" class="post-form" enctype='multipart/form-data'>{% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="save btn btn-default" value="neworder">Сохранить</button>
+        </form>
+    </div>
 {% endblock %}

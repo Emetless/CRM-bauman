@@ -1,9 +1,10 @@
 {% extends "crmsite/wrap.html" %}
 {% block content %}
 
-    <table class="table">
+    <table class="table" border="2">
         <tr class="table-active" >
-            <td >Имя Фамилия</td>
+            <td>#</td>
+            <td>Имя Фамилия</td>
             <td>Никнейм</td>
             <td>E-mail</td>
             <td>Номер телефона</td>
@@ -15,6 +16,9 @@
         </tr>
         {% for post in posts %}
             <tr >
+                <td>
+                    {{ post.id }}
+                </td>
                 <td>
                     <a href="{% url 'Панель управления пользователем' ids=post.id %}">{{ post.first_name }} {{ post.last_name }}</a>
                 </td>

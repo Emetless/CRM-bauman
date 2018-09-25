@@ -1,14 +1,17 @@
-{%   extends "crmsite/wrap.html" %}
+{% extends "crmsite/wrap.html" %}
 {% block content %}
 
 
     {% for post in posts %}
-    <div>
-            <h1><a href="/">{{ post.nameJob }}</a></h1>
-        <p>Создано {{ post.createAt }}</p>
-        <p>{{ post.creator }}</p>
-        <p>{{ post.annotation }}</p>
-    </div>
-{% endfor %}
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Название статьи: "<a href="{%url 'детали заявки' ids=post.id%}">{{ post.nameJob }}"</a></h5>
+                <p>Автор: {{ post.creator }}</p>
+                <p>Аннотации: {{ post.annotation }}</p>
+                <p class="card-text">Создано: {{ post.createAt }}</p>
+                <a href="{%url 'детали заявки' ids=post.id%}" class="btn btn-primary">Просмотреть</a>
+            </div>
+        </div>
+    {% endfor %}
 
 {% endblock %}
