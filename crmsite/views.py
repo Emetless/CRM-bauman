@@ -215,12 +215,36 @@ def moderatorOrderEdit(request, ids):
         return render(request, 'crmsite/nonlogin.html')
     elif user.garantAc == True and Worker.objects.get(id=user.role_id).isAdmin == True or Worker.objects.get(
             id=user.role_id).isModerator:
-        post = get_object_or_404(Orders, id=ids)
+        post = Orders.objects.get(id=ids)
         form = ModeratorPanelForm(
             initial={'nameJob': post.nameJob, 'isAnalyst': post.isAnalyst, 'isConsult': post.isConsult,
                      'isTranslator': post.isTranslator, 'isEditor': post.isEditor,
                      'BlackFile': post.BlackFile, 'LastFile': post.LastFile,
-                     'Comment': post.Comment, 'annotation': post.annotation,'keyWords': post.keyWords})
-        return render(request, 'crmsite/Administrators/moderatorOrderEdit.html', {'post': post, 'form': form})
+                     'Comment': post.Comment, 'annotation': post.annotation, 'keyWords': post.keyWords})
+        if request.POST:
+            if request.POST['isAnalyst'] == 'on':
+                IsAnalyst = True
+            if request.POST['isConsult'] == 'on':
+                IsConsult = True
+            if request.POST['isTranslator'] == 'on':
+                IsTranslator = True
+            if request.POST['isEditor'] == 'on':
+                IsEditor = True
+            post.save(nameJob=request.POST['nameJob'],
+                      annotation=request.POST['annotation'],
+                      keyWords=request.POST['keyWords'],
+                      isAnalyst=IsAnalyst,
+                      isConsult=IsConsult,
+                      isTranslator=IsTranslator,
+                      isEditor=IsEditor,
+                      creator=user,
+                      Comment=request.POST['Comment'],
+                      BlackFile=request.FILES['BlackFile'],
+                      Condirion=request.POST['Condirion'])
+
+            return redirect('moderating/')
+        else:
+            return render(request, 'crmsite/Administrators/moderatorOrderEdit.html', {'post': post, 'form': form})
     else:
         return render(request, 'crmsite/nonpermited.html')
+

@@ -62,7 +62,7 @@ class NewOrderForm(forms.Form):
     isTranslator = forms.BooleanField(label="Требуется переводчик")
     isEditor = forms.BooleanField(label="Требуется редактор")
     Comment = forms.CharField(label="Комментарий")
-    BlackFile = forms.FileField(label="черновой вариант документа",required=False)
+    BlackFile = forms.FileField(label="черновой вариант документа", required=False)
 
 
 class AdminPanelForm(forms.Form):
@@ -77,6 +77,7 @@ class AdminPanelForm(forms.Form):
     isTranslator = forms.BooleanField(label="Переводчик")
     isChefTranslator = forms.BooleanField(label="Шеф переводчик")
     isEditor = forms.BooleanField(label="Требуется редактор")
+
 
 class ModeratorPanelForm(forms.Form):
     nameJob = forms.CharField(label="Название работы", required=False)
@@ -93,3 +94,17 @@ class ModeratorPanelForm(forms.Form):
     Comment = forms.CharField(label="Комментарий", required=False)
     BlackFile = forms.FileField(label="черновой вариант документа", required=False)
     LastFile = forms.FileField(label="Последний вариант документа", required=False)
+    types = (
+        ('ПРИНЯТО В РАБОТУ', 'ПРИНЯТО В РАБОТУ'),
+        ('ОТКЛОНЕНО', 'ОТКЛОНЕНО'),
+        ('ПЕРЕДАНО КОНСУЛЬТАНТАМ', 'ПЕРЕДАНО КОНСУЛЬТАНТАМ'),
+        ('ВОЗВРАЩЕНО АДМИНИСТРАТОРУ СИСТЕМЫ', 'ВОЗВРАЩЕНО АДМИНИСТРАТОРУ СИСТЕМЫ'),
+        ('ПЕРЕДАНО РЕДАКТОРУ', 'ПЕРЕДАНО РЕДАКТОРУ'),
+        ('ПЕРЕДАНО ПЕРЕВОДЧИКУ', 'ПЕРЕДАНО ПЕРЕВОДЧИКУ'),
+        ('ОТПРАВЛЕНО В ЖУРНАЛ', 'ОТПРАВЛЕНО В ЖУРНАЛ'),
+        ('ПОЛУЧЕНО ИЗ ЖУРНАЛА НА ДОРАБОТКУ', 'ПОЛУЧЕНО ИЗ ЖУРНАЛА НА ДОРАБОТКУ'),
+        ('В рассмотрении у администратора', 'В рассмотрении у администратора'),
+        ('ПЕРЕДАНО МОДЕРАТОРУ', 'ПЕРЕДАНО МОДЕРАТОРУ'),
+        ('Завершено', 'Завершено')
+    )
+    Condirion = forms.ChoiceField(label="Состояние работы", choices=types)
