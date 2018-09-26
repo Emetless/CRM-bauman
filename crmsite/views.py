@@ -272,6 +272,7 @@ def download(request, ids):
 
 
 def show(request):
+    print(request.path)
     user = auth.get_user(request)
     if user.is_anonymous:
         return render(request, 'crmsite/nonlogin.html')
@@ -281,19 +282,19 @@ def show(request):
     else:
         return render(request, 'crmsite/nonpermited.html', {'username': auth.get_user(request)})
 
-
 def showEdit(request, ids):
+    print(request)
     user = auth.get_user(request)
     if user.is_anonymous:
         return render(request, 'crmsite/nonlogin.html')
     elif user.garantAc == True and Worker.objects.get(id=user.role_id).isTranslator == True:
         post = get_object_or_404(Orders, id=ids, isTranslator=True)
         form = EditWorkerForm(request.POST, request.FILES or None)
-        if request.post:
+        if request.POST:
             post.save(aciveBy=request.POST['aciveBy'],
                       Comment=request.POST['Comment'],
                       LastFile=request.FILES['LastFile'])
             return redirect('translator/')
-        return render(request, 'crmsite/showorder.html', {'post': post})
+        return render(request, 'crmsite/showorder.html', {'post': post, 'form':form})
     else:
         return render(request, 'crmsite/nonpermited.html', {'username': auth.get_user(request)})
