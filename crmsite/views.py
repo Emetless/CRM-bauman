@@ -84,28 +84,21 @@ def createOrder(request):
     if user.is_anonymous:
         return render(request, 'crmsite/nonlogin.html')
     elif user.garantAc == True and Worker.objects.get(id=user.role_id).isAuthor == True:
-        form = NewOrderForm(request.POST, request.FILES or None)
+
         if request.POST:
+            form = NewOrderForm(request.POST, request.FILES or None)
             if form.is_valid():
-                if request.POST['isAnalyst'] == 'on':
-                    IsAnalyst = True
-                if request.POST['isConsult'] == 'on':
-                    IsConsult = True
-                if request.POST['isTranslator'] == 'on':
-                    IsTranslator = True
-                if request.POST['isEditor'] == 'on':
-                    IsEditor = True
                 newOrder = Orders.objects.create(
-                    nameJob=request.POST['nameJob'],
-                    annotation=request.POST['annotation'],
-                    keyWords=request.POST['keyWords'],
-                    isAnalyst=IsAnalyst,
-                    isConsult=IsConsult,
-                    isTranslator=IsTranslator,
-                    isEditor=IsEditor,
+                    nameJob=form.cleaned_data['nameJob'],
+                    annotation=form.cleaned_data['annotation'],
+                    keyWords=form.cleaned_data['keyWords'],
+                    isAnalyst=form.cleaned_data['isAnalyst'],
+                    isConsult=form.cleaned_data['isConsult'],
+                    isTranslator=form.cleaned_data['isTranslator'],
+                    isEditor=form.cleaned_data['isEditor'],
                     creator=user,
-                    Comment=request.POST['Comment'],
-                    BlackFile=request.FILES['BlackFile'],
+                    Comment=form.cleaned_data['Comment'],
+                    BlackFile=form.cleaned_data['BlackFile'],
                     Condirion='ПРИНЯТО В РАБОТУ'
                 )
 

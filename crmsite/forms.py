@@ -87,7 +87,7 @@ class ModeratorPanelForm(forms.Form):
         (True, 'Yes'),
         (False, 'No')
     )
-    isAnalyst = forms.BooleanField(label="Требуется аналитик", required=False)
+    isAnalyst = forms.BooleanField(label="Требуется аналитик", required=False,)
     isConsult = forms.BooleanField(label="Требуется консультант", required=False)
     isTranslator = forms.BooleanField(label="Требуется переводчик", required=False)
     isEditor = forms.BooleanField(label="Требуется редактор", required=False)
