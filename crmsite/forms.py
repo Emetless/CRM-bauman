@@ -69,10 +69,11 @@ class AdminPanelForm(forms.Form):
     garantAc = forms.BooleanField(label="Подтверждение аккаунта")
     isAuthor = forms.BooleanField(label="Автор")
     isModerator = forms.BooleanField(label="Модератор")
-    isHead = forms.BooleanField(label="Руководитель")
+    isChefConsult = forms.BooleanField(label="Шеф консультант")
     isAdmin = forms.BooleanField(label="Администратор")
-    isChefEditor = forms.BooleanField(label="Директор")
+    isChefEditor = forms.BooleanField(label="Шеф редактор")
     isAnalyst = forms.BooleanField(label="Аналитик")
+    isChefAnalyst = forms.BooleanField(label="Шеф Аналитик")
     isConsult = forms.BooleanField(label="Консультант")
     isTranslator = forms.BooleanField(label="Переводчик")
     isChefTranslator = forms.BooleanField(label="Шеф переводчик")
@@ -111,6 +112,11 @@ class ModeratorPanelForm(forms.Form):
 
 
 class EditWorkerForm(forms.Form):
+    Comment = forms.CharField(label="Комментарий", required=False)
+    LastFile = forms.FileField(label="Последний вариант документа", required=False)
+
+class EditChefForm(forms.Form):
     aciveBy = forms.CharField(label="Работник", required=False)
     Comment = forms.CharField(label="Комментарий", required=False)
     LastFile = forms.FileField(label="Последний вариант документа", required=False)
+    Worker = forms.CharField(label="Исполнитель", required=False)

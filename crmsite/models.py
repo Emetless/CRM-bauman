@@ -14,7 +14,8 @@ class Worker(models.Model):
     isEditor = models.BooleanField(default=False)
     isChefTranslator = models.BooleanField(default=False)
     isTranslator = models.BooleanField(default=False)
-    isHead = models.BooleanField(default=False)
+    isChefAnalyst = models.BooleanField(default=False)
+    isChefConsult = models.BooleanField(default=False)
 
 
 class User(AbstractUser):

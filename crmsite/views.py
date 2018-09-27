@@ -304,7 +304,7 @@ def showEdit(request, ids):
             post = get_object_or_404(Orders, id=ids, isAnalyst=True, StatusS=4)
 
         else:
-            return redirect(request.path-str(ids))
+            return redirect(request.path - str(ids))
         form = EditWorkerForm(
             initial={'LastFile': post.LastFile, 'Condirion': post.Condirion,
                      'Comment': post.Comment})
@@ -313,11 +313,88 @@ def showEdit(request, ids):
             form = EditWorkerForm(request.POST, request.FILES or None)
             if form.is_valid():
                 post.save(
-                      Comment=form.cleaned_data['Comment'],
-                      LastFile=request.FILES['LastFile'],
-                      Condirion=CondirionS)
+                    Comment=form.cleaned_data['Comment'],
+                    LastFile=request.FILES['LastFile'],
+                    Condirion=CondirionS)
             return redirect(request.path)
         return render(request, 'crmsite/showorder.html',
                       {'post': post, 'form': form, 'username': auth.get_user(request)})
+    else:
+        return render(request, 'crmsite/nonpermited.html', {'username': auth.get_user(request)})
+
+
+def showEditS(request, ids):
+    user = auth.get_user(request)
+    print(request.path)
+    print(ids)
+    print(Worker.objects.get(id=user.role_id).isTranslator)
+    if user.is_anonymous:
+        return render(request, 'crmsite/nonlogin.html')
+    elif user.garantAc:
+        if Worker.objects.get(id=user.role_id).isTranslator:
+            post = get_object_or_404(Orders, id=ids, isChefTranslator=True, StatusS=3)
+            stat = 3
+            form = EditChefForm(
+                initial={'LastFile': post.LastFile, 'Condirion': post.Condirion,
+                         'Comment': post.Comment, 'Worker': User.objects.filter(role_id=Worker.objects.filter(isTranslator=True))})
+
+        elif Worker.objects.get(id=user.role_id).isEditor and request.path == '/editor/' + str(ids):
+            post = get_object_or_404(Orders, id=ids, isChefEditor=True, StatusS=2)
+            stat = 2
+            form = EditChefForm(
+                initial={'LastFile': post.LastFile, 'Condirion': post.Condirion,
+                         'Comment': post.Comment,'Worker': User.objects.filter(role_id=Worker.objects.filter(isEditor=True))})
+
+        elif Worker.objects.get(id=user.role_id).isConsult and request.path == '/consultant/' + str(ids):
+            post = get_object_or_404(Orders, id=ids, isChefConsult=True, StatusS=1)
+            stat = 1
+            form = EditChefForm(
+                initial={'LastFile': post.LastFile, 'Condirion': post.Condirion,
+                         'Comment': post.Comment,'Worker': User.objects.filter(role_id=Worker.objects.filter(isConsult=True))})
+
+        elif Worker.objects.get(id=user.role_id).isAnalyst and request.path == '/analyst/' + str(ids):
+            post = get_object_or_404(Orders, id=ids, isChefAnalyst=True, StatusS=4)
+            stat = 4
+            form = EditChefForm(
+                initial={'LastFile': post.LastFile, 'Condirion': post.Condirion,
+                         'Comment': post.Comment,'Worker': User.objects.filter(role_id=Worker.objects.filter(isAnalyst=True))})
+        else:
+            return redirect(request.path - str(ids))
+        if request.POST:
+            CondirionS = 'ВОЗВРАЩЕНО АДМИНИСТРАТОРУ СИСТЕМЫ'
+            form = EditChefForm(request.POST, request.FILES or None)
+            if form.is_valid():
+                post.save(
+                    Comment=form.cleaned_data['Comment'],
+                    LastFile=request.FILES['LastFile'],
+                    Condirion=CondirionS,
+                    StatusS=stat
+
+
+                    )
+                return redirect(request.path)
+        return render(request, 'crmsite/showorder.html',
+                      {'post': post, 'form': form, 'username': auth.get_user(request)})
+    else:
+        return render(request, 'crmsite/nonpermited.html', {'username': auth.get_user(request)})
+
+
+def showS(request):
+    print(request.path)
+    user = auth.get_user(request)
+    if Worker.objects.get(id=user.role_id).isTranslator:
+        posts = Orders.objects.filter(StatusS=3).order_by('createAt')
+    elif Worker.objects.get(id=user.role_id).isEditor and request.path == '/editor/':
+        posts = Orders.objects.filter(StatusS=2).order_by('createAt')
+    elif Worker.objects.get(id=user.role_id).isConsult and request.path == '/consultant/':
+        posts = Orders.objects.filter(StatusS=1).order_by('createAt')
+    elif Worker.objects.get(id=user.role_id).isAnalyst and request.path == '/analyst/':
+        posts = Orders.objects.filter(StatusS=4).order_by('createAt')
+    else:
+        return redirect('/')
+    if user.is_anonymous:
+        return render(request, 'crmsite/nonlogin.html')
+    elif user.garantAc == True and Worker.objects.get(id=user.role_id).isTranslator == True:
+        return render(request, 'crmsite/orders.html', {'posts': posts, 'username': auth.get_user(request)})
     else:
         return render(request, 'crmsite/nonpermited.html', {'username': auth.get_user(request)})
