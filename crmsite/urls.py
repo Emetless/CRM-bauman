@@ -28,13 +28,13 @@ urlpatterns = [
     path('editor/', views.show, name="Заявки на Консультацию"),
     path('editor/<int:ids>', views.showEdit, name="Заявки на Консультацию"),
 
-    path('translatorS/', views.show, name="Заявки на перевод"),
-    path('translatorS/<int:ids>', views.showEdit, name="Заявка на перевод"),
-    path('analystS/', views.show, name="Заявки на Анализ"),
-    path('analystS/<int:ids>', views.showEdit, name="Заявки на Анализ"),
-    path('consultantS/', views.show, name="Заявки на Консультацию"),
-    path('consultantS/<int:ids>', views.showEdit, name="Заявки на Консультацию"),
-    path('editorS/', views.show, name="Заявки на Консультацию"),
-    path('editorS/<int:ids>', views.showEdit, name="Заявки на Консультацию"),
+    path('translatorS/', views.showS, name="Заявки на перевод"),
+    path('translatorS/<int:ids>', views.showEditS, name="Заявка на перевод"),
+    path('analystS/', views.showS, name="Заявки на Анализ"),
+    path('analystS/<int:ids>', views.showEditS, name="Заявки на Анализ"),
+    path('consultantS/', views.showS, name="Заявки на Консультацию"),
+    path('consultantS/<int:ids>', views.showEditS, name="Заявки на Консультацию"),
+    path('editorS/', views.showS, name="Заявки на Консультацию"),
+    path('editorS/<int:ids>', views.showEditS, name="Заявки на Консультацию"),
 
 ]
