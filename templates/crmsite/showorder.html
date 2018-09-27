@@ -30,6 +30,8 @@
         {% endif %}</p>
         <p>Ключевые слова: {{ post.keyWords }}</p>
         <p>Комментарий: {{ post.Comment }}</p>
+        <p>{{ post.Condirion }}</p>
+        {{ form.as_p }}
         <p class="btn btn-light"><a href="{% url 'загрузка' ids=post.id %}">Скачать файл</a></p>
     </div>
 {% endblock %}

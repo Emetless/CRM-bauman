@@ -282,19 +282,38 @@ def show(request):
     else:
         return render(request, 'crmsite/nonpermited.html', {'username': auth.get_user(request)})
 
+
 def showEdit(request, ids):
-    print(request)
     user = auth.get_user(request)
+    print(request.path)
+    print(ids)
+    print(Worker.objects.get(id=user.role_id).isTranslator)
+
     if user.is_anonymous:
         return render(request, 'crmsite/nonlogin.html')
-    elif user.garantAc == True and Worker.objects.get(id=user.role_id).isTranslator == True:
-        post = get_object_or_404(Orders, id=ids, isTranslator=True)
+    elif user.garantAc:
+        if Worker.objects.get(id=user.role_id).isTranslator:
+            post = get_object_or_404(Orders, id=ids, isTranslator=True)
+            CondirionS = 'ПЕРЕДАНО ПЕРЕВОДЧИКУ'
+            print(post)
+        elif Worker.objects.get(id=user.role_id).isEditor and request.path == '/editor/' + str(ids):
+            post = get_object_or_404(Orders, id=ids, isEditor=True)
+            CondirionS = 'ПЕРЕДАНО РЕДАКТОРУ'
+        elif Worker.objects.get(id=user.role_id).isConsult and request.path == '/consultant/' + str(ids):
+            post = get_object_or_404(Orders, id=ids, isConsult=True)
+            CondirionS = 'ПЕРЕДАНО КОНСУЛЬТАНТАМ'
+        elif Worker.objects.get(id=user.role_id).isAnalyst and request.path == '/analyst/' + str(ids):
+            post = get_object_or_404(Orders, id=ids, isAnalyst=True)
+            CondirionS = 'ПЕРЕДАНО ПЕРЕВОДЧИКУ'
+        else:
+            return redirect('/')
         form = EditWorkerForm(request.POST, request.FILES or None)
         if request.POST:
             post.save(aciveBy=request.POST['aciveBy'],
                       Comment=request.POST['Comment'],
-                      LastFile=request.FILES['LastFile'])
-            return redirect('translator/')
-        return render(request, 'crmsite/showorder.html', {'post': post, 'form':form})
+                      LastFile=request.FILES['LastFile'],
+                      Condirion=CondirionS)
+            return redirect(request.path)
+        return render(request, 'crmsite/showorder.html', {'post': post, 'form': form})
     else:
         return render(request, 'crmsite/nonpermited.html', {'username': auth.get_user(request)})

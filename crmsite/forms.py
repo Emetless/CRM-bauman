@@ -57,10 +57,10 @@ class NewOrderForm(forms.Form):
         (True, 'Yes'),
         (False, 'No')
     )
-    isAnalyst = forms.BooleanField(label="Требуется аналитик")
-    isConsult = forms.BooleanField(label="Требуется консультант")
-    isTranslator = forms.BooleanField(label="Требуется переводчик")
-    isEditor = forms.BooleanField(label="Требуется редактор")
+    isAnalyst = forms.BooleanField(label="Требуется аналитик", required=False)
+    isConsult = forms.BooleanField(label="Требуется консультант", required=False)
+    isTranslator = forms.BooleanField(label="Требуется переводчик", required=False)
+    isEditor = forms.BooleanField(label="Требуется редактор", required=False)
     Comment = forms.CharField(label="Комментарий")
     BlackFile = forms.FileField(label="черновой вариант документа", required=False)
 

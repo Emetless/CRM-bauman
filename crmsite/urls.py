@@ -20,7 +20,7 @@ urlpatterns = [
     path('moderatingS/<int:ids>', views.moderatorOrderEdit, name='Управление заявкой'),
 
     path('translator/', views.show, name="Заявки на перевод"),
-    path('translator/<int:ids>', views.showEdit, name="Заявки на перевод"),
+    path('translator/<int:ids>', views.showEdit, name="Заявка на перевод"),
     path('analyst/', views.show, name="Заявки на Анализ"),
     path('analyst/<int:ids>', views.showEdit, name="Заявки на Анализ"),
     path('consultant/', views.show, name="Заявки на Консультацию"),
@@ -29,7 +29,7 @@ urlpatterns = [
     path('editor/<int:ids>', views.showEdit, name="Заявки на Консультацию"),
 
     path('translatorS/', views.show, name="Заявки на перевод"),
-    path('translatorS/<int:ids>', views.showEdit, name="Заявки на перевод"),
+    path('translatorS/<int:ids>', views.showEdit, name="Заявка на перевод"),
     path('analystS/', views.show, name="Заявки на Анализ"),
     path('analystS/<int:ids>', views.showEdit, name="Заявки на Анализ"),
     path('consultantS/', views.show, name="Заявки на Консультацию"),
