@@ -226,7 +226,7 @@ def moderatorOrderEdit(request, ids):
         if request.POST:
             form = NewOrderForm(request.POST, request.FILES or None)
             if form.is_valid():
-                newOrder = Orders.objects.create(
+                post.save(
                     nameJob=form.cleaned_data['nameJob'],
                     annotation=form.cleaned_data['annotation'],
                     keyWords=form.cleaned_data['keyWords'],
@@ -237,11 +237,10 @@ def moderatorOrderEdit(request, ids):
                     creator=user,
                     Comment=form.cleaned_data['Comment'],
                     BlackFile=form.cleaned_data['BlackFile'],
-                    LastFile=request.post['LastFile'],
-                    Condirion=form.cleaned_data['Condirion']
+                    LastFile=request.POST['LastFile'],
+                    Condirion=form.cleaned_data['Condirion'],
+                    StatusS=1
                 )
-
-                newOrder.save()
 
             return redirect('moderating/')
         else:
@@ -336,28 +335,32 @@ def showEditS(request, ids):
             stat = 3
             form = EditChefForm(
                 initial={'LastFile': post.LastFile, 'Condirion': post.Condirion,
-                         'Comment': post.Comment, 'Worker': User.objects.filter(role_id=Worker.objects.filter(isTranslator=True))})
+                         'Comment': post.Comment,
+                         'Worker': User.objects.filter(role_id=Worker.objects.filter(isTranslator=True))})
 
         elif Worker.objects.get(id=user.role_id).isEditor and request.path == '/editor/' + str(ids):
             post = get_object_or_404(Orders, id=ids, isChefEditor=True, StatusS=2)
             stat = 2
             form = EditChefForm(
                 initial={'LastFile': post.LastFile, 'Condirion': post.Condirion,
-                         'Comment': post.Comment,'Worker': User.objects.filter(role_id=Worker.objects.filter(isEditor=True))})
+                         'Comment': post.Comment,
+                         'Worker': User.objects.filter(role_id=Worker.objects.filter(isEditor=True))})
 
         elif Worker.objects.get(id=user.role_id).isConsult and request.path == '/consultant/' + str(ids):
             post = get_object_or_404(Orders, id=ids, isChefConsult=True, StatusS=1)
             stat = 1
             form = EditChefForm(
                 initial={'LastFile': post.LastFile, 'Condirion': post.Condirion,
-                         'Comment': post.Comment,'Worker': User.objects.filter(role_id=Worker.objects.filter(isConsult=True))})
+                         'Comment': post.Comment,
+                         'Worker': User.objects.filter(role_id=Worker.objects.filter(isConsult=True))})
 
         elif Worker.objects.get(id=user.role_id).isAnalyst and request.path == '/analyst/' + str(ids):
             post = get_object_or_404(Orders, id=ids, isChefAnalyst=True, StatusS=4)
             stat = 4
             form = EditChefForm(
                 initial={'LastFile': post.LastFile, 'Condirion': post.Condirion,
-                         'Comment': post.Comment,'Worker': User.objects.filter(role_id=Worker.objects.filter(isAnalyst=True))})
+                         'Comment': post.Comment,
+                         'Worker': User.objects.filter(role_id=Worker.objects.filter(isAnalyst=True))})
         else:
             return redirect(request.path - str(ids))
         if request.POST:
@@ -370,8 +373,7 @@ def showEditS(request, ids):
                     Condirion=CondirionS,
                     StatusS=stat
 
-
-                    )
+                )
                 return redirect(request.path)
         return render(request, 'crmsite/showorder.html',
                       {'post': post, 'form': form, 'username': auth.get_user(request)})
