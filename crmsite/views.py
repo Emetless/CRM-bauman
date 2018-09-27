@@ -221,28 +221,27 @@ def moderatorOrderEdit(request, ids):
         form = ModeratorPanelForm(
             initial={'nameJob': post.nameJob, 'isAnalyst': post.isAnalyst, 'isConsult': post.isConsult,
                      'isTranslator': post.isTranslator, 'isEditor': post.isEditor,
-                     'BlackFile': post.BlackFile, 'LastFile': post.LastFile,
+                     'BlackFile': post.BlackFile, 'LastFile': post.LastFile, 'Condirion': post.Condirion,
                      'Comment': post.Comment, 'annotation': post.annotation, 'keyWords': post.keyWords})
         if request.POST:
-            if request.POST['isAnalyst'] == 'on':
-                IsAnalyst = True
-            if request.POST['isConsult'] == 'on':
-                IsConsult = True
-            if request.POST['isTranslator'] == 'on':
-                IsTranslator = True
-            if request.POST['isEditor'] == 'on':
-                IsEditor = True
-            post.save(nameJob=request.POST['nameJob'],
-                      annotation=request.POST['annotation'],
-                      keyWords=request.POST['keyWords'],
-                      isAnalyst=IsAnalyst,
-                      isConsult=IsConsult,
-                      isTranslator=IsTranslator,
-                      isEditor=IsEditor,
-                      creator=user,
-                      Comment=request.POST['Comment'],
-                      BlackFile=request.FILES['BlackFile'],
-                      Condirion=request.POST['Condirion'])
+            form = NewOrderForm(request.POST, request.FILES or None)
+            if form.is_valid():
+                newOrder = Orders.objects.create(
+                    nameJob=form.cleaned_data['nameJob'],
+                    annotation=form.cleaned_data['annotation'],
+                    keyWords=form.cleaned_data['keyWords'],
+                    isAnalyst=form.cleaned_data['isAnalyst'],
+                    isConsult=form.cleaned_data['isConsult'],
+                    isTranslator=form.cleaned_data['isTranslator'],
+                    isEditor=form.cleaned_data['isEditor'],
+                    creator=user,
+                    Comment=form.cleaned_data['Comment'],
+                    BlackFile=form.cleaned_data['BlackFile'],
+                    LastFile=form.cleaned_data['LastFile'],
+                    Condirion=form.cleaned_data['Condirion']
+                )
+
+                newOrder.save()
 
             return redirect('moderating/')
         else:
@@ -315,7 +314,7 @@ def showEdit(request, ids):
             return redirect('/')
         form = EditWorkerForm(request.POST, request.FILES or None)
         if request.POST:
-            post.save(aciveBy=request.POST['aciveBy'],
+            post.save(aciveBy=form.cleaned_data,
                       Comment=request.POST['Comment'],
                       LastFile=request.FILES['LastFile'],
                       Condirion=CondirionS)
