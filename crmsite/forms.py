@@ -76,7 +76,7 @@ class AdminPanelForm(forms.Form):
     isConsult = forms.BooleanField(label="Консультант")
     isTranslator = forms.BooleanField(label="Переводчик")
     isChefTranslator = forms.BooleanField(label="Шеф переводчик")
-    isEditor = forms.BooleanField(label="Требуется редактор")
+    isEditor = forms.BooleanField(label="Редактор")
 
 
 class ModeratorPanelForm(forms.Form):
@@ -92,8 +92,8 @@ class ModeratorPanelForm(forms.Form):
     isTranslator = forms.BooleanField(label="Требуется переводчик", required=False)
     isEditor = forms.BooleanField(label="Требуется редактор", required=False)
     Comment = forms.CharField(label="Комментарий", required=False)
-    BlackFile = forms.FileField(label="черновой вариант документа", required=False)
-    LastFile = forms.FileField(label="Последний вариант документа", required=False)
+    BlackFile = forms.FileField(label="Выберите документ", required=False)
+    LastFile = forms.FileField(label="Выберите документ", required=False)
     types = (
         ('ПРИНЯТО В РАБОТУ', 'ПРИНЯТО В РАБОТУ'),
         ('ОТКЛОНЕНО', 'ОТКЛОНЕНО'),
