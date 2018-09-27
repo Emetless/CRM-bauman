@@ -3,7 +3,6 @@ import os
 from django.contrib import auth
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.decorators.csrf import csrf_protect
 
 from CRM import settings
 from crmsite.forms import *
@@ -71,7 +70,7 @@ def profile(request):
         return render(request, 'crmsite/nonlogin.html')
     else:
         return render(request, 'crmsite/profile.html',
-                      {'user': user, 'username': auth.get_user(request), 'username': auth.get_user(request)})
+                      {'user': user, 'username': auth.get_user(request)})
 
 
 def logout(request):
@@ -142,6 +141,7 @@ def adminPanel(request):
 
 
 def user_detail_admin(request, ids):
+    global IsChefTranslator
     user = auth.get_user(request)
     if user.is_anonymous:
         return render(request, 'crmsite/nonlogin.html')
@@ -237,7 +237,7 @@ def moderatorOrderEdit(request, ids):
                     creator=user,
                     Comment=form.cleaned_data['Comment'],
                     BlackFile=form.cleaned_data['BlackFile'],
-                    LastFile=form.cleaned_data['LastFile'],
+                    LastFile=request.post['LastFile'],
                     Condirion=form.cleaned_data['Condirion']
                 )
 
@@ -266,20 +266,15 @@ def show(request):
     print(request.path)
     user = auth.get_user(request)
     if Worker.objects.get(id=user.role_id).isTranslator:
-        posts = Orders.objects.filter(Translator=user).order_by('createAt')
-        # CondirionS = 'ПЕРЕДАНО ПЕРЕВОДЧИКУ'
+        posts = Orders.objects.filter(Translator=user, StatusS=3).order_by('createAt')
     elif Worker.objects.get(id=user.role_id).isEditor and request.path == '/editor/':
-        posts = Orders.objects.filter(Editor=user).order_by('createAt')
-        # CondirionS = 'ПЕРЕДАНО РЕДАКТОРУ'
+        posts = Orders.objects.filter(Editor=user, StatusS=2).order_by('createAt')
     elif Worker.objects.get(id=user.role_id).isConsult and request.path == '/consultant/':
-        posts = Orders.objects.filter(Consult=user).order_by('createAt')
-        # CondirionS = 'ПЕРЕДАНО КОНСУЛЬТАНТАМ'
+        posts = Orders.objects.filter(Consult=user, StatusS=1).order_by('createAt')
     elif Worker.objects.get(id=user.role_id).isAnalyst and request.path == '/analyst/':
-        posts = Orders.objects.filter(Analyst=user).order_by('createAt')
-        # CondirionS = 'ПЕРЕДАНО ПЕРЕВОДЧИКУ'
+        posts = Orders.objects.filter(Analyst=user, StatusS=4).order_by('createAt')
     else:
         return redirect('/')
-    # form = EditWorkerForm(request.POST, request.FILES or None)
     if user.is_anonymous:
         return render(request, 'crmsite/nonlogin.html')
     elif user.garantAc == True and Worker.objects.get(id=user.role_id).isTranslator == True:
@@ -293,29 +288,32 @@ def showEdit(request, ids):
     print(request.path)
     print(ids)
     print(Worker.objects.get(id=user.role_id).isTranslator)
-
     if user.is_anonymous:
         return render(request, 'crmsite/nonlogin.html')
     elif user.garantAc:
         if Worker.objects.get(id=user.role_id).isTranslator:
-            post = get_object_or_404(Orders, id=ids, isTranslator=True)
-            CondirionS = 'ПЕРЕДАНО ПЕРЕВОДЧИКУ'
-            print(post)
+            post = get_object_or_404(Orders, id=ids, isTranslator=True, StatusS=3)
+
         elif Worker.objects.get(id=user.role_id).isEditor and request.path == '/editor/' + str(ids):
-            post = get_object_or_404(Orders, id=ids, isEditor=True)
-            CondirionS = 'ПЕРЕДАНО РЕДАКТОРУ'
+            post = get_object_or_404(Orders, id=ids, isEditor=True, StatusS=2)
+
         elif Worker.objects.get(id=user.role_id).isConsult and request.path == '/consultant/' + str(ids):
-            post = get_object_or_404(Orders, id=ids, isConsult=True)
-            CondirionS = 'ПЕРЕДАНО КОНСУЛЬТАНТАМ'
+            post = get_object_or_404(Orders, id=ids, isConsult=True, StatusS=1)
+
         elif Worker.objects.get(id=user.role_id).isAnalyst and request.path == '/analyst/' + str(ids):
-            post = get_object_or_404(Orders, id=ids, isAnalyst=True)
-            CondirionS = 'ПЕРЕДАНО ПЕРЕВОДЧИКУ'
+            post = get_object_or_404(Orders, id=ids, isAnalyst=True, StatusS=4)
+
         else:
-            return redirect('/')
-        form = EditWorkerForm(request.POST, request.FILES or None)
+            return redirect(request.path-str(ids))
+        form = EditWorkerForm(
+            initial={'LastFile': post.LastFile, 'Condirion': post.Condirion,
+                     'Comment': post.Comment})
         if request.POST:
-            post.save(aciveBy=form.cleaned_data,
-                      Comment=request.POST['Comment'],
+            CondirionS = 'ВОЗВРАЩЕНО АДМИНИСТРАТОРУ СИСТЕМЫ'
+            form = EditWorkerForm(request.POST, request.FILES or None)
+            if form.is_valid():
+                post.save(
+                      Comment=form.cleaned_data['Comment'],
                       LastFile=request.FILES['LastFile'],
                       Condirion=CondirionS)
             return redirect(request.path)

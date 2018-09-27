@@ -78,5 +78,6 @@ class Orders(models.Model):
         ('1', 'У консультанта'),
         ('2', 'У редактора'),
         ('3', 'У переводчика'),
+        ('4', 'У аналитика'),
     )
     StatusS = models.TextField(null=True, choices=CHOISE)
