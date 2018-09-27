@@ -35,8 +35,7 @@ def login(request):
 
 
 def register(request):
-    args = {}
-    args['form'] = UserSignUpForm
+    args = {'form': UserSignUpForm}
     if request.POST:
         newuser_form = UserSignUpForm(request.POST)
         if request.POST['password'] != request.POST['password_confirmation']:
@@ -274,10 +273,24 @@ def download(request, ids):
 def show(request):
     print(request.path)
     user = auth.get_user(request)
+    if Worker.objects.get(id=user.role_id).isTranslator:
+        posts = Orders.objects.filter(Translator=user).order_by('createAt')
+        # CondirionS = 'ПЕРЕДАНО ПЕРЕВОДЧИКУ'
+    elif Worker.objects.get(id=user.role_id).isEditor and request.path == '/editor/':
+        posts = Orders.objects.filter(Editor=user).order_by('createAt')
+        # CondirionS = 'ПЕРЕДАНО РЕДАКТОРУ'
+    elif Worker.objects.get(id=user.role_id).isConsult and request.path == '/consultant/':
+        posts = Orders.objects.filter(Consult=user).order_by('createAt')
+        # CondirionS = 'ПЕРЕДАНО КОНСУЛЬТАНТАМ'
+    elif Worker.objects.get(id=user.role_id).isAnalyst and request.path == '/analyst/':
+        posts = Orders.objects.filter(Analyst=user).order_by('createAt')
+        # CondirionS = 'ПЕРЕДАНО ПЕРЕВОДЧИКУ'
+    else:
+        return redirect('/')
+    # form = EditWorkerForm(request.POST, request.FILES or None)
     if user.is_anonymous:
         return render(request, 'crmsite/nonlogin.html')
     elif user.garantAc == True and Worker.objects.get(id=user.role_id).isTranslator == True:
-        posts = Orders.objects.filter(creator=user).order_by('createAt')
         return render(request, 'crmsite/orders.html', {'posts': posts, 'username': auth.get_user(request)})
     else:
         return render(request, 'crmsite/nonpermited.html', {'username': auth.get_user(request)})
@@ -314,6 +327,7 @@ def showEdit(request, ids):
                       LastFile=request.FILES['LastFile'],
                       Condirion=CondirionS)
             return redirect(request.path)
-        return render(request, 'crmsite/showorder.html', {'post': post, 'form': form})
+        return render(request, 'crmsite/showorder.html',
+                      {'post': post, 'form': form, 'username': auth.get_user(request)})
     else:
         return render(request, 'crmsite/nonpermited.html', {'username': auth.get_user(request)})
